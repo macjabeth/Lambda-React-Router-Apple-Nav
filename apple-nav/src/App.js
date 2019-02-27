@@ -7,43 +7,50 @@ class App extends Component {
   state = { data };
 
   render() {
-    const { data } = this.state;
+    const { icons, links } = this.state.data;
     return (
       <React.Fragment>
         <GlobalStyle />
-        <NavHeader>
-          <NavWrapper>
-            <Nav>
-              {data.map(({ cat, route }) => (
-                <NavLink to={route} key={cat}>
-                  {cat}
-                </NavLink>
-              ))}
-            </Nav>
-          </NavWrapper>
-          <SubNavWrapper>
-            <SubNav>
-              {data.map(({ route, items }) => (
-                <Route
-                  path={route}
-                  key={route}
-                  render={props => (
-                    <div>
-                      {items.map(({ name, route, icon }) => (
-                        <SubNavItem key={name}>
-                          <Link to={`/${route}`}>
-                            <SubNavIcon icon={icon} />
-                            <SubNavLabel>{name}</SubNavLabel>
-                          </Link>
-                        </SubNavItem>
-                      ))}
-                    </div>
-                  )}
-                />
-              ))}
-            </SubNav>
-          </SubNavWrapper>
-        </NavHeader>
+        <NavWrapper>
+          <Nav>
+            <NavLink to="/">
+              <NavIcon src={icons.apple} alt="apple" />
+            </NavLink>
+            {links.map(({ cat, route }) => (
+              <NavLink to={route} key={cat}>
+                {cat}
+              </NavLink>
+            ))}
+            <NavLink to="/search">
+              <NavIcon src={icons.search} alt="search" />
+            </NavLink>
+            <NavLink to="/shop">
+              <NavIcon src={icons.shop} alt="shop" />
+            </NavLink>
+          </Nav>
+        </NavWrapper>
+        <SubNavWrapper>
+          <SubNav>
+            {links.map(({ route, items }) => (
+              <Route
+                path={route}
+                key={route}
+                render={props => (
+                  <div>
+                    {items.map(({ name, route, icon }) => (
+                      <SubNavItem key={name}>
+                        <Link to={`/${route}`}>
+                          <SubNavIcon icon={icon} />
+                          <SubNavLabel>{name}</SubNavLabel>
+                        </Link>
+                      </SubNavItem>
+                    ))}
+                  </div>
+                )}
+              />
+            ))}
+          </SubNav>
+        </SubNavWrapper>
       </React.Fragment>
     );
   }
@@ -57,8 +64,6 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
   }
 `;
-
-const NavHeader = styled.header``;
 
 const NavWrapper = styled.div`
   background-color: rgba(45, 45, 45, 0.98);
@@ -90,6 +95,9 @@ const Nav = styled.nav`
       opacity: 0.65;
     }
   }
+`;
+const NavIcon = styled.img`
+  display: flex;
 `;
 
 const SubNavWrapper = styled.div`
